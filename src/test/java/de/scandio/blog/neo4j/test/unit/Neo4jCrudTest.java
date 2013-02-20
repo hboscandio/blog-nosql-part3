@@ -15,28 +15,6 @@ import org.neo4j.kernel.GraphDatabaseAPI;
 public class Neo4jCrudTest extends Neo4jBaseTest {
 
 	@Test
-	public void smithersWhoIsThatGuySleeping() {
-
-		String query = "START n=node:__types__(type='user') WHERE n.firstname = 'Homer' return n";
-
-		ExecutionResult result = executeQuery(query);
-		final Set<Node> nodes = nodeSetFromResult(result, "n");
-
-		Iterator<Node> columnIterator = result.columnAs("n");
-		IteratorUtil.addToCollection(columnIterator, nodes);
-
-		// Okily-dokily if there is only one result - Homer itself
-		Assert.assertEquals(1, nodes.size());
-
-		// Smithers, who is this nincompoop?
-		Node node = nodes.iterator().next();
-		Assert.assertEquals("Homer", node.getProperty("firstname"));
-		Assert.assertEquals("Simpson", node.getProperty("lastname"));
-		Assert.assertEquals("safety supervisor", node.getProperty("job"));
-
-	}
-
-	@Test
 	public void howManyChildrenHasHomers() {
 
 		String query = "START n=node:__types__(type='user') MATCH n-[c:IS_FATHER_OF]->() return COUNT(c)";
@@ -62,6 +40,28 @@ public class Neo4jCrudTest extends Neo4jBaseTest {
 
 	}
 
+	@Test
+	public void smithersWhoIsThatGuySleeping() {
+
+		String query = "START n=node:__types__(type='user') WHERE n.firstname = 'Homer' return n";
+
+		ExecutionResult result = executeQuery(query);
+		final Set<Node> nodes = nodeSetFromResult(result, "n");
+
+		Iterator<Node> columnIterator = result.columnAs("n");
+		IteratorUtil.addToCollection(columnIterator, nodes);
+
+		// Okily-dokily if there is only one result - Homer itself
+		Assert.assertEquals(1, nodes.size());
+
+		// Smithers, who is this nincompoop?
+		Node node = nodes.iterator().next();
+		Assert.assertEquals("Homer", node.getProperty("firstname"));
+		Assert.assertEquals("Simpson", node.getProperty("lastname"));
+		Assert.assertEquals("safety supervisor", node.getProperty("job"));
+
+	}
+	
 	@Test
 	public void whoShotMrBurns() {
 
